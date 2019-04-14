@@ -45,11 +45,11 @@ Xi'an, China \\
 
 \begin{abstract}
 Tracking with kernelized correlation filters (KCF) is an excellent object tracking algorithm, which is widely concerned.
-However, it still has many limitations, its tracking performance decreases in complex scenes, and the model is easily contaminated because it is updated every frame.
-In KCF, the candidate patch in tracked region corresponds to a confidence ratio reflecting the probability that it contains the target, the patch corresponding to the maximum confidence ratio is output as the result.
+However, it still has many limitations, such as its tracking performance decreases in complex scenes, and the model is easily contaminated because it is updated every frame.
+In KCF, each candidate patch in tracked region corresponds to a confidence ratio reflecting the probability that it contains the target, and the tracking patch corresponding with the maximum confidence ratio is the output.
 We combine all available confidence ratios to obtain a confidence map and infer the tracking scene by analyzing the confidence map.
 For complex scenes, we dynamically improve KCF to enhance its tracking performance.
-In addition, we propose an innovative model update mechanism to reduce the amount of calculation and model contamination. 
+In addition, we propose an innovative model update mechanism to reduce the computational complexity and model contamination. 
 The experimental results show that compared with the conventional KCF algorithm, the proposed approach improves success rate and precision by 7\% and 8\% respectively.
 \end{abstract}
 
@@ -58,32 +58,32 @@ object tracking, confidence map, kernelized correlation filter, model update mec
 \end{IEEEkeywords}
 
 \section{INTRODUCTION}
-Object tracking is a classic problem in computer vision, which has a wide range of applications in many fields\cite{Survey,Survey2}. 
+Object tracking is a classic problem in computer vision, which has a wide range of applications. \cite{Survey,Survey2}. 
 However, it is still difficult due to many challenging aspects, such as occlusion, fast motion, similar target and deformation.
 
-In recent years, the object tracking algorithm based on discriminative learning method has made a lot of progress \cite{Discriminative}. 
+In recent years, many object tracking algorithms based on discriminative learning method are proposed and have made a lot of process \cite{Discriminative}. 
 In 2015, Henriques proposed KCF (Tracking with Kernelized Correlation Filters) algorithm \cite{KCF}. 
 It obtains periodic training samples by cyclically shifting the image and simplifies the calculation process using DFT (Discrete Fourier Transform). 
 "Kernel trick" is simultaneously employed to improve its tracking performance. 
-However, KCF uses the same tracking method in different scenes, it can track accurately in simple scenes, but its tracking performance decreases in complex scenes.
+However, KCF uses the same tracking mechanism in different scenes, it can track accurately in simple scenes, but its tracking performance decreases in complex scenes.
 When faced tracking scenes with similar target, background clutter or motion blur, it is difficult for KCF to use a single HOG (Histogram of Oriented Gradients) feature to effectively describe the target.
-When faced tracking scenes with occlusion or fast motion, KCF limits the tracked region also impairs tracking performance.
+When faced tracking scenes with occlusion or fast motion, the limited tracked region in KCF also impairs tracking performance.
 In addition, KCF model is updated every frame, it is computationally intensive and easily causes model contaminant.
 
-Based on this simple observation, we propose an improved KCF algorithm based on confidence map.
-The novelty of this work is that:
+Based on these observations, we propose an improved KCF algorithm based on confidence map.
+The novelty of our work is that:
 \begin{itemize}
-\item A confidence map is proposed. The confidence map reflects all available confidence ratios. According to the peak response types of the confidence map, we can deduce the complexity of the tracking scene and the challenging aspects that may be included.  
+\item A confidence map is proposed. The confidence map reflects all available confidence ratios. According to the peak response types of the confidence map, we can deduce the type of the tracking scene and the challenging aspects that may be included.  
 \item An improved KCF algorithm is proposed for complex tracking scenes.
 When faced tracking scenes with similar target, background clutter or motion blur, we combine the color features and HOG features to effectively describe the target.
 When faced tracking scenes with occlusion or fast motion, we expand the tracked region to improve the tracking performance.
-\item A model update mechanism is proposed based on the degree of target deformation.
-The value of the deformation factor determines whether the model needs to be updated.
+\item A model update mechanism is proposed based on the extent of target deformation.
+The proposed deformation index determines whether the model needs to be updated.
 The algorithm model is no longer updated every frame, which reduces the amount of calculation and model contamination. 
 \end{itemize}
 The experimental results show that compared with the conventional KCF algorithm, the proposed approach improves success rate and precision by 7\% and 8\% respectively.
 
-The rest of this paper is organized as follows. The second part describes the related works. The third part presents the enhanced algorithm. The fourth part reports the results of the experiment. Finally, the fifth part makes a summary and introduces the future work.
+The rest of this paper is organized in five sections. The second part describes the related works. The third part presents the enhanced algorithm. The fourth part reports the results of the experiment. Finally, the fifth part makes a summary and introduces the future work.
 \begin{figure*}[htbp]
 	\centering
 	\includegraphics[scale=1]{flow.eps}
@@ -264,11 +264,11 @@ The improved algorithm is more likely to track successfully in the above scenes.
 During the tracking process, the target will be deformed, the algorithm model needs to be constantly updated \cite{Modelupdate}.
 The KCF model is updated every frame.
 In this way, the calculation is very heavy and the model is easily contaminated.
-We propose an innovative model update mechanism to address the problem, whether the model is updated depends on the degree of target deformation.
+We propose an innovative model update mechanism to address the problem, whether the model is updated depends on the extent of target deformation.
 
 The first frame of the video sequence contains the complete information of the target.
-The degree of target deformation can be measured by calculating the difference between the estimated target of the current frame and the given target of the first frame.
-Since KCF extracts the HOG feature of each frame, the deformation degree $d$ can be obtained by \eqref{Update1}.
+The extent of target deformation can be measured by calculating the difference between the estimated target of the current frame and the given target of the first frame.
+Since KCF extracts the HOG feature of each frame, the deformation extent $d$ can be obtained by \eqref{Update1}.
 \begin{equation}
 	d=d({\rm x}_1,{\rm x}_t)
 	\label{Update1}
